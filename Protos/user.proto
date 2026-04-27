@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "Library.Protos.User";
+
+package library.user;
+
+service UserService {
+  rpc GetById (UserIdRequest) returns (UserResponse);
+}
+
+message UserIdRequest {
+  int32 userId = 1;
+}
+
+message UserResponse {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "src\\BookService\\BookService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\UserService\\UserService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\LendingService\\LendingService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Library.TestClient\\Library.TestClient.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

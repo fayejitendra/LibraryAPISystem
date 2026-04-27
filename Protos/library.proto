@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option csharp_namespace = "Library.Protos.Analytics";
+package library;
+
+service LibraryAnalytics {
+  rpc GetMostBorrowedBooks (TopRequest) returns (MostBorrowedBooksResponse);
+  rpc GetTopBorrowingUsers (UserActivityRequest) returns (TopUsersResponse);
+  rpc GetUserReadingPace (UserIdRequest) returns (ReadingPaceResponse);
+  rpc GetAlsoBorrowedBooks (BookIdRequest) returns (AlsoBorrowedResponse);
+}
+
+// Requests
+message TopRequest { int32 top = 1; }
+message UserIdRequest { int32 userId = 1; }
+message BookIdRequest { int32 bookId = 1; }
+message UserActivityRequest { int32 top = 1; string startDate = 2; string endDate = 3; }
+
+// Responses
+message MostBorrowedBooksResponse { repeated BookBorrowStats books = 1; }
+message BookBorrowStats { int32 bookId = 1; string title = 2; int32 borrowCount = 3; }
+
+message TopUsersResponse { repeated UserBorrowStats users = 1; }
+message UserBorrowStats { int32 userId = 1; string name = 2; int32 borrowCount = 3; }
+
+message ReadingPaceResponse { int32 userId = 1; double pagesPerDay = 2; string estimatedSpeedCategory = 3; }
+
+message AlsoBorrowedResponse { repeated BookInfo books = 1; }
+message BookInfo { int32 bookId = 1; string title = 2; }
+
+message Book { int32 id = 1; string isbn = 2; string title = 3; string author = 4; int32 pages = 5; }
+message User { int32 id = 1; string name = 2; string email = 3; }

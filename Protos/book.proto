@@ -1,0 +1,10 @@
+syntax = "proto3";
+option csharp_namespace = "Library.Protos.Book";
+package library;
+
+service BookService {
+  rpc GetBook(BookIdRequest) returns (Book);
+}
+
+message BookIdRequest { int32 bookId = 1; }
+message Book { int32 id = 1; string isbn = 2; string title = 3; string author = 4; int32 pages = 5; }

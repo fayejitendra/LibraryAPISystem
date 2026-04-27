@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.33.1" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.52.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Grpc.Net.Client" Version="2.52.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.52.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- BookService client stub -->
+    <Protobuf Include="..\..\Protos\book.proto" GrpcServices="Client" GrpcNamespace="Library.Protos.Book" />
+
+    <!-- Analytics/LendingService client stub -->
+    <Protobuf Include="..\..\Protos\library.proto" GrpcServices="Client" GrpcNamespace="Library.Protos.Analytics" />
+	
+	<!-- User client stub -->
+    <Protobuf Include="..\..\Protos\user.proto" GrpcServices="Client" GrpcNamespace="Library.Protos.user" />
+  </ItemGroup>
+
+</Project>

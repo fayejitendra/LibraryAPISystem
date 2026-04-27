@@ -1,0 +1,20 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/src/BookService/bin/Debug/net9.0
+/src/BookService/obj
+/src/LendingService/bin/Debug/net9.0
+/src/LendingService/obj
+/src/Library.TestClient/bin/Debug/net8.0
+/src/Library.TestClient/obj
+/src/UserService/bin/Debug/net9.0
+/src/UserService/obj
+/Test/BookService.Tests/bin/Debug/net9.0
+/Test/BookService.Tests/obj
+/Test/LendingService.Tests/bin/Debug/net9.0
+/Test/LendingService.Tests/obj
+/Test/UserService.Tests/bin/Debug/net9.0
+/Test/UserService.Tests/obj
+/src/UserService/logs
