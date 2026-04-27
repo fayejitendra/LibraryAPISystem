@@ -11,73 +11,42 @@ Key features:
 - Communication between services via **gRPC** (proto definitions provided).
 - **EF Core** with SQL Server (DbContexts and migrations scaffolded).
 - Logging with **Serilog**.
-- Telemetry hooks prepared for **OpenTelemetry**.
-- Authentication integration placeholders for **Keycloak** (Docker compose includes a Keycloak instance).
-- Docker / Docker Compose to run SQL Server, Keycloak, and the services.
 - Unit / Integration test project skeletons using **xUnit**.
-- README contains step-by-step instructions to run locally and in Docker.
-
-> ⚠️ Note: This is a compact, runnable skeleton with fully implemented core flows and placeholders where environment-specific secrets are required (database connection string, Keycloak realm/client configuration). You will need `.NET SDK 7` or later and Docker installed.
 
 ## How to use
 
-### 1. Unzip & open
-Unzip `library-microservices.zip` and open the solution folder.
+Flow Description
 
-### 2. Update environment values
-Edit `docker-compose.yml` and each service's `appsettings.json` or environment variables to set SQL Server passwords and Keycloak client IDs if you change defaults.
+1.	TestClient calls LendingService via gRPC:
+o	Requests most borrowed books, top users, reading pace, etc.
 
-### 3. Run with Docker Compose (recommended)
-```bash
-docker-compose up --build
-```
-This will start:
-- SQL Server (mssql)
-- Keycloak
-- BookService, UserService, LendingService (built as Docker images)
+2.	LendingService acts as aggregator:
+o	Calls BookService to fetch book titles and details (GetBookAsync)
+o	Calls UserService to fetch top borrowers (GetTopBorrowingUsersAsync)
+o	Computes analytics based on lending repository
 
-Run migrations (one-time, from each service directory):
-```bash
-dotnet ef database update --project ./src/BookService/BookService.csproj
-dotnet ef database update --project ./src/UserService/UserService.csproj
-dotnet ef database update --project ./src/LendingService/LendingService.csproj
-```
+3.	BookService provides book details:
+o	GetBook by BookId
 
-### 4. Run locally (without Docker)
-From each service folder:
-```bash
-dotnet restore
-dotnet build
-dotnet run
-```
+4.	UserService provides user details:
+o	GetUserById and GetTopBorrowingUsers
 
-### 5. Proto / gRPC
-Proto files are under `src/Protos/library.proto`. Services expose gRPC endpoints and sample HTTP-to-gRPC endpoints.
+5.	LendingService compiles results and sends response back to TestClient.
 
-### 6. Tests
-From repository root, run:
-```bash
-dotnet test
-```
+Steps to run the service to local server:
 
----
+1.	Clone the Repository from blow URL to your local machine– 
+https://github.com/fayejitendra/LibraryAPISystem
 
-If you want, I can:
-- Expand test coverage (provide more unit/functional tests).
-- Add CI pipeline (GitHub Actions) to build/test and publish images.
-- Provide additional reporting endpoints (e.g., most-borrowed books, pages/day estimator).
-- Walk you step-by-step through running and customizing this code locally.
+2.	Specify the connection string for Book, Lending and User service in appsetting.json file 
+"ConnectionStrings": {
+    "DefaultConnection": "your connection string"
+},
 
+Note- As migration script is already included in the solution so it will feed database with sample data.
 
+3.	After this, build the service locally. It should build without any error.
+4.	Set Solution setup to run all the services at once so functionality can be tested locally
+5.	Run the service, Test client service will land you to swagger page with list of methods
 
-## Added by request
-- Database initializer and seed data for each service (auto-run on startup)
-- Keycloak realm export (keycloak/realm-export.json) to import into Keycloak
-- JWT authentication middleware placeholders for each service (configure Authority/Audience in appsettings or env)
-- In-memory repository unit tests (xUnit)
-- GitHub Actions CI workflow to build and run tests
-
-
-## RabbitMQ / CQRS
-- MassTransit configured to use RabbitMQ. Set `RABBITMQ_URL` env variable (e.g., CloudAMQP URL) in docker-compose or environment.
-- LendingService exposes HTTP endpoints that act as write-side (Commands) using MediatR and publish `BookBorrowedEvent` to the bus.
+THanks
